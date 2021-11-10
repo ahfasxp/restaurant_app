@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/favorites_page.dart';
 import 'package:restaurant_app/ui/profile_page.dart';
-import 'package:restaurant_app/ui/restaurant_page.dart';
+import 'package:restaurant_app/ui/restaurant/restaurant_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';

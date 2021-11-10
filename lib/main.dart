@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
@@ -5,10 +6,13 @@ import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/db/database_helper.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/ui/home_Page.dart';
-import 'package:restaurant_app/ui/restaurant_detail_page.dart';
+import 'package:restaurant_app/ui/home/home_page.dart';
+import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
+import 'package:restaurant_app/ui/auth/welcome_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -31,8 +35,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(primary: greenColor),
         ),
-        initialRoute: HomePage.routeName,
+        initialRoute: WelcomePage.routeName,
         routes: {
+          WelcomePage.routeName: (context) => WelcomePage(),
           HomePage.routeName: (context) => HomePage(),
           RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(),
         },

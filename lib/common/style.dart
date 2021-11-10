@@ -10,6 +10,7 @@ final Color backgroundColor = Color(0xFFE5E5E5);
 final Color searchColor = Color(0xFFE6E7E9);
 final Color logoutColor = Color(0xFFEB4646);
 final Color textProfileColor = Color(0xFF374151);
+final Color loginColor = Color(0xFFD1FAE5);
 
 final TextStyle greyTextStyle = GoogleFonts.inter(
   fontWeight: FontWeight.w500,
@@ -29,4 +30,9 @@ final TextStyle whiteTextStyle = GoogleFonts.inter(
 final TextStyle profileTextStyle = GoogleFonts.inter(
   fontWeight: FontWeight.w400,
   color: textProfileColor,
+);
+
+final TextStyle greenTextStyle = GoogleFonts.inter(
+  fontWeight: FontWeight.w700,
+  color: greenColor,
 );
