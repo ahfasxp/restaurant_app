@@ -24,7 +24,11 @@ class CardExploreRestaurant extends StatelessWidget {
             var isFavorited = snapshot.data ?? false;
             return GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, RestaurantDetailPage.routeName);
+                Navigator.pushNamed(
+                  context,
+                  RestaurantDetailPage.routeName,
+                  arguments: restaurant,
+                );
               },
               child: Container(
                 padding: EdgeInsets.all(12),
@@ -40,7 +44,7 @@ class CardExploreRestaurant extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
-                        pictureUrl + restaurant.pictureId.toString(),
+                        pictureUrl + restaurant.pictureId,
                         width: 64,
                         height: 64,
                         fit: BoxFit.cover,

@@ -1,110 +1,304 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
+import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
+import 'package:restaurant_app/utils/result_state.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
-  static const routeName = '/restaurant_detail';
-  const RestaurantDetailPage({Key? key}) : super(key: key);
+  static const routeName = '/restaurant/detail';
+  final String pictureUrl =
+      'https://restaurant-api.dicoding.dev/images/medium/';
+
+  final Restaurant restaurant;
+
+  const RestaurantDetailPage({Key? key, required this.restaurant})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        title: Text(
-          'Details Restaurant',
-          style: whiteTextStyle.copyWith(
-            fontSize: 12,
-          ),
-        ),
-        centerTitle: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(16),
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 8,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
-            decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(16),
+    return ChangeNotifierProvider<DetailRestaurantProvider>(
+      create: (_) =>
+          DetailRestaurantProvider(apiService: ApiService(), id: restaurant.id),
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        appBar: AppBar(
+          title: Text(
+            'Details Restaurant',
+            style: whiteTextStyle.copyWith(
+              fontSize: 12,
             ),
+          ),
+          centerTitle: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(16),
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tava Restaurant',
-                          style: blackTextStyle.copyWith(fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.place,
-                              color: greenColor,
-                              size: 16,
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              'kazi Deiry, Taiger Pass,Chittagong',
-                              style: greyTextStyle.copyWith(
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.star,
-                      color: greenColor,
-                    ),
-                    Text(
-                      '4.0',
-                      style: blackTextStyle.copyWith(fontSize: 16),
-                    ),
-                  ],
-                ),
                 SizedBox(
-                  height: 24,
+                  height: 8,
                 ),
                 Container(
-                  height: 182,
+                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
                   decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(8),
+                    color: whiteColor,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                restaurant.name,
+                                style: blackTextStyle.copyWith(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.place,
+                                    color: greenColor,
+                                    size: 16,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    restaurant.city,
+                                    style: greyTextStyle.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.star,
+                            color: greenColor,
+                          ),
+                          Consumer<DetailRestaurantProvider>(
+                              builder: (context, provider, _) {
+                            return provider.state == ResultState.HasData
+                                ? Text(
+                                    provider.result.restaurant.rating
+                                        .toString(),
+                                    style:
+                                        blackTextStyle.copyWith(fontSize: 16),
+                                  )
+                                : Text('');
+                          }),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              pictureUrl + restaurant.pictureId,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          _fabImage(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Description',
+                        style: blackTextStyle.copyWith(fontSize: 14),
+                      ),
+                      Text(
+                        restaurant.description,
+                        style: greyTextStyle.copyWith(fontSize: 12),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                Text(
-                  'Description',
-                  style: blackTextStyle.copyWith(fontSize: 14),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    color: whiteColor,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Consumer<DetailRestaurantProvider>(
+                    builder: (context, provider, _) {
+                      if (provider.state == ResultState.Loading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (provider.state == ResultState.HasData) {
+                        return Column(
+                          children: [
+                            _foodMenu(provider),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            _drinkMenu(provider),
+                          ],
+                        );
+                      } else {
+                        return Center(child: Text(''));
+                      }
+                    },
+                  ),
                 ),
-                Text(
-                  'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. ...',
-                  style: greyTextStyle.copyWith(fontSize: 12),
+                SizedBox(
+                  height: 24,
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _fabImage() {
+    return Consumer<DatabaseProvider>(
+      builder: (context, provider, _) {
+        return FutureBuilder<bool>(
+          future: provider.isFavorited(restaurant.id),
+          builder: (context, snapshot) {
+            var isFavorited = snapshot.data ?? false;
+            return Positioned(
+              bottom: 10,
+              right: 10,
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: whiteColor,
+                ),
+                child: isFavorited
+                    ? IconButton(
+                        onPressed: () => provider.removeFavorite(restaurant.id),
+                        icon: Icon(
+                          Icons.favorite,
+                          color: greenColor,
+                        ),
+                      )
+                    : IconButton(
+                        onPressed: () => provider.addFavorite(restaurant),
+                        icon: Icon(
+                          Icons.favorite_outline,
+                          color: greenColor,
+                        ),
+                      ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _foodMenu(DetailRestaurantProvider provider) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18),
+          child: Text(
+            'Food Menu',
+            style: blackTextStyle.copyWith(
+              fontSize: 14,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        SizedBox(
+          height: 40,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: provider.result.restaurant.menus.foods.length,
+            itemBuilder: (context, index) {
+              var detail = provider.result.restaurant.menus.foods[index];
+              return Container(
+                height: 40,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(
+                  left: 8,
+                ),
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: greenColor),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                child: Text(detail.name),
+              );
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _drinkMenu(DetailRestaurantProvider provider) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18),
+            child: Text(
+              'Food Menu',
+              style: blackTextStyle.copyWith(
+                fontSize: 14,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          SizedBox(
+            height: 40,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: provider.result.restaurant.menus.foods.length,
+              itemBuilder: (context, index) {
+                var detail = provider.result.restaurant.menus.drinks[index];
+                return Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(
+                    left: 8,
+                  ),
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: greenColor),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  child: Text(detail.name),
+                );
+              },
             ),
           )
         ],

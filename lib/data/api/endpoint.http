@@ -1,0 +1,9 @@
+# Get List Restaurant
+GET https://restaurant-api.dicoding.dev/list
+
+###
+
+# Get Detail Restaurant
+GET https://restaurant-api.dicoding.dev/detail/rqdv5juczeskfw1e867
+
+###

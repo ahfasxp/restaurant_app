@@ -15,7 +15,11 @@ class CardNewRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, RestaurantDetailPage.routeName);
+        Navigator.pushNamed(
+          context,
+          RestaurantDetailPage.routeName,
+          arguments: restaurant,
+        );
       },
       child: Container(
         width: 148,
@@ -36,7 +40,7 @@ class CardNewRestaurant extends StatelessWidget {
                 ),
               ),
               child: Image.network(
-                pictureUrl + restaurant.pictureId.toString(),
+                pictureUrl + restaurant.pictureId,
                 width: 128,
                 height: 103,
                 fit: BoxFit.cover,
