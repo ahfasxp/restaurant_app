@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/widgets/toast_custom.dart';
 
 class RegistrationPage extends StatefulWidget {
   RegistrationPage({Key? key}) : super(key: key);
@@ -165,14 +165,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
               Align(
                 child: ElevatedButton(
                   onPressed: () {
-                    Fluttertoast.showToast(
-                        msg: "This is Center Short Toast",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+                    Toast.show(
+                      'Coming Soon',
+                      context,
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -221,27 +217,34 @@ class _RegistrationPageState extends State<RegistrationPage> {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      Fluttertoast.showToast(msg: "Successfullly Registration");
+      Toast.show(
+        'Successfullly Registration',
+        context,
+        backgroundColor: Colors.green.shade300,
+      );
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
-        Fluttertoast.showToast(msg: "The password provided is too weak.");
+        Toast.show(
+          'The password provided is too weak.',
+          context,
+          backgroundColor: Colors.red.shade300,
+        );
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
-        Fluttertoast.showToast(
-            msg: "The account already exists for that email.");
+        Toast.show(
+          'The account already exists for that email.',
+          context,
+          backgroundColor: Colors.red.shade300,
+        );
       } else {
         print('Failed with error code: ${e.code}');
-        // Note: Param except msg Not Showing (Bug Package)
-        Fluttertoast.showToast(
-            msg: e.message.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+        Toast.show(
+          e.message.toString(),
+          context,
+          backgroundColor: Colors.red.shade300,
+        );
       }
     } finally {
       setState(() {

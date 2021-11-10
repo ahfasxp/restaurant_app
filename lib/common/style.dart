@@ -8,7 +8,7 @@ final Color greenColor = Color(0xFF32B768);
 final Color greyColor = Color(0xFF6B7280);
 final Color backgroundColor = Color(0xFFE5E5E5);
 final Color searchColor = Color(0xFFE6E7E9);
-final Color logoutColor = Color(0xFFEB4646);
+final Color redColor = Color(0xFFEB4646);
 final Color textProfileColor = Color(0xFF374151);
 final Color loginColor = Color(0xFFD1FAE5);
 

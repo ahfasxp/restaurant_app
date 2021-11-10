@@ -199,14 +199,14 @@ class ProfilePage extends StatelessWidget {
                   style: whiteTextStyle.copyWith(fontSize: 16),
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(logoutColor),
+                  backgroundColor: MaterialStateProperty.all(redColor),
                   padding: MaterialStateProperty.all(
                     EdgeInsets.symmetric(horizontal: 25, vertical: 8),
                   ),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(11),
-                      side: BorderSide(color: logoutColor),
+                      side: BorderSide(color: redColor),
                     ),
                   ),
                 ),

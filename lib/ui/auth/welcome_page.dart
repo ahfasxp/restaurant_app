@@ -1,3 +1,4 @@
+import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:restaurant_app/common/style.dart';
@@ -18,112 +19,115 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 138,
-                ),
-                Image.asset(
-                  'assets/images/order_success.png',
-                  width: 280,
-                  height: 224,
-                ),
-                SizedBox(
-                  height: 55,
-                ),
-                Text(
-                  'Welcome',
-                  style: blackTextStyle.copyWith(fontSize: 24),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  'Before enjoying Foodmedia services\nPlease register first',
-                  style: greyTextStyle.copyWith(
-                    fontSize: 14,
+    return DoubleBack(
+      message: 'Press back again to close',
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 138,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 95,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // NOTE: Button ShowModal
-                    selectedNavText = 0;
-                    _showModal(context);
-                  },
-                  child: Text(
-                    'Create Account',
-                    style: whiteTextStyle.copyWith(
+                  Image.asset(
+                    'assets/images/order_success.png',
+                    width: 280,
+                    height: 224,
+                  ),
+                  SizedBox(
+                    height: 55,
+                  ),
+                  Text(
+                    'Welcome',
+                    style: blackTextStyle.copyWith(fontSize: 24),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'Before enjoying Foodmedia services\nPlease register first',
+                    style: greyTextStyle.copyWith(
                       fontSize: 14,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  style: ElevatedButton.styleFrom(
-                    primary: greenColor,
-                    minimumSize: Size(256, 49),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(11),
+                  SizedBox(
+                    height: 95,
+                  ),
+                  // NOTE: Button Show Modal Register
+                  ElevatedButton(
+                    onPressed: () {
+                      selectedNavText = 0;
+                      _showModal(context);
+                    },
+                    child: Text(
+                      'Create Account',
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 14,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: greenColor,
+                      minimumSize: Size(256, 49),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(11),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // NOTE: Button Show Modal
-                    selectedNavText = 1;
-                    _showModal(context);
-                  },
-                  child: Text(
-                    'Login ',
-                    style: greenTextStyle.copyWith(
-                      fontSize: 14,
+                  SizedBox(
+                    height: 16,
+                  ),
+                  // NOTE: Button Show Modal Login
+                  ElevatedButton(
+                    onPressed: () {
+                      selectedNavText = 1;
+                      _showModal(context);
+                    },
+                    child: Text(
+                      'Login ',
+                      style: greenTextStyle.copyWith(
+                        fontSize: 14,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: loginColor,
+                      minimumSize: Size(256, 49),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(11),
+                      ),
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    primary: loginColor,
-                    minimumSize: Size(256, 49),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(11),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      text:
+                          'By Logging In Or Registering, You Have Agreed To ', // default text style
+                      children: [
+                        TextSpan(
+                          text: 'The Terms And\n',
+                          style: greenTextStyle,
+                        ),
+                        TextSpan(
+                          text: 'Conditions',
+                          style: greenTextStyle,
+                        ),
+                        TextSpan(
+                          text: ' And ',
+                        ),
+                        TextSpan(
+                          text: 'Privacy Policy.',
+                          style: greenTextStyle,
+                        ),
+                      ],
+                      style: profileTextStyle.copyWith(fontSize: 10),
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Text.rich(
-                  TextSpan(
-                    text:
-                        'By Logging In Or Registering, You Have Agreed To ', // default text style
-                    children: [
-                      TextSpan(
-                        text: 'The Terms And\n',
-                        style: greenTextStyle,
-                      ),
-                      TextSpan(
-                        text: 'Conditions',
-                        style: greenTextStyle,
-                      ),
-                      TextSpan(
-                        text: ' And ',
-                      ),
-                      TextSpan(
-                        text: 'Privacy Policy.',
-                        style: greenTextStyle,
-                      ),
-                    ],
-                    style: profileTextStyle.copyWith(fontSize: 10),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

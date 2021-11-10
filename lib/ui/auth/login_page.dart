@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/home/home_page.dart';
+import 'package:restaurant_app/widgets/toast_custom.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -178,25 +178,12 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-        Fluttertoast.showToast(msg: "The password provided is too weak.");
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-        Fluttertoast.showToast(
-            msg: "The account already exists for that email.");
-      } else {
-        print('Failed with error code: ${e.code}');
-        // Note: Param except msg Not Showing (Bug Package)
-        Fluttertoast.showToast(
-            msg: e.message.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      }
+      print('Failed with error code: ${e.code}');
+      Toast.show(
+        e.message.toString(),
+        context,
+        backgroundColor: Colors.red.shade300,
+      );
     } finally {
       setState(() {
         _isLoading = false;
