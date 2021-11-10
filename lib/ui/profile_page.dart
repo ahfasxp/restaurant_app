@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/ui/auth/welcome_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _auth = FirebaseAuth.instance;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -183,7 +187,13 @@ class ProfilePage extends StatelessWidget {
                 height: 40,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  // Metode Signout from Firebase
+                  await _auth.signOut();
+
+                  Navigator.pushReplacementNamed(
+                      context, WelcomePage.routeName);
+                },
                 child: Text(
                   'Logout',
                   style: whiteTextStyle.copyWith(fontSize: 16),

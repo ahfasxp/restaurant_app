@@ -2,22 +2,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/ui/home/home_page.dart';
 
-class RegistrationPage extends StatefulWidget {
-  RegistrationPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  LoginPage({Key? key}) : super(key: key);
 
   @override
-  _RegistrationPageState createState() => _RegistrationPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _LoginPageState extends State<LoginPage> {
   // Inisialisai Objek Firebase Auth
   final _auth = FirebaseAuth.instance;
   bool _obscureText = true;
   bool _isLoading = false;
 
   // Inisialisasi Controller
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -28,40 +28,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 34),
-                child: Text(
-                  'Full Name',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: TextField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 12),
-                    fillColor: whiteColor,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: Color(0xFF9CA3AF),
-                        width: 2.0,
-                      ),
-                    ),
-                    hintText: 'Enter your full name',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 34),
                 child: Text(
@@ -124,7 +90,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         width: 2.0,
                       ),
                     ),
-                    hintText: '**** **** ****',
                     suffixIcon: IconButton(
                       icon: Icon(_obscureText
                           ? Icons.visibility
@@ -135,6 +100,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         });
                       },
                     ),
+                    hintText: '**** **** ****',
                   ),
                 ),
               ),
@@ -143,9 +109,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               Align(
                 child: ElevatedButton(
-                  onPressed: _register,
+                  onPressed: _login,
                   child: Text(
-                    'Registration',
+                    'Login',
                     style: whiteTextStyle.copyWith(
                       fontSize: 14,
                     ),
@@ -164,16 +130,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               Align(
                 child: ElevatedButton(
-                  onPressed: () {
-                    Fluttertoast.showToast(
-                        msg: "This is Center Short Toast",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  },
+                  onPressed: () {},
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -207,22 +164,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
           );
   }
 
-  // NOTE: Method Register
-  void _register() async {
+  // NOTE: Method Login
+  void _login() async {
     setState(() {
       _isLoading = true;
     });
     try {
-      // final name = _nameController.text;
       final email = _emailController.text;
       final password = _passwordController.text;
 
-      // Metode Signup form Firebase
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      // Metode Signin from Firebase
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
 
-      Fluttertoast.showToast(msg: "Successfullly Registration");
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
