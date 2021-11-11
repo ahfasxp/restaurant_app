@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/auth/welcome_page.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilPage extends StatelessWidget {
+  const ProfilPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -10,6 +10,7 @@ import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/ui/home/home_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/auth/welcome_page.dart';
+import 'package:restaurant_app/ui/splash/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,8 +37,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(primary: greenColor),
         ),
-        initialRoute: HomePage.routeName,
+        initialRoute: SplashPage.routeName,
         routes: {
+          SplashPage.routeName: (context) => SplashPage(),
           WelcomePage.routeName: (context) => WelcomePage(),
           HomePage.routeName: (context) => HomePage(),
           RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
