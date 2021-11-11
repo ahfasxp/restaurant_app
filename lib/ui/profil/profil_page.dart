@@ -4,11 +4,9 @@ import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/auth/welcome_page.dart';
 
 class ProfilPage extends StatelessWidget {
-  const ProfilPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    final _auth = FirebaseAuth.instance;
+    var currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -45,7 +43,7 @@ class ProfilPage extends StatelessWidget {
                           style: blackTextStyle.copyWith(fontSize: 16),
                         ),
                         Text(
-                          'sadekbranding@gmail.com',
+                          currentUser!.email.toString(),
                           style: greyTextStyle.copyWith(fontSize: 10),
                         ),
                       ],
@@ -189,8 +187,7 @@ class ProfilPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   // Metode Signout from Firebase
-                  await _auth.signOut();
-
+                  await FirebaseAuth.instance.signOut();
                   Navigator.pushReplacementNamed(
                       context, WelcomePage.routeName);
                 },

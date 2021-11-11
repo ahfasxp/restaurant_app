@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   // Inisialisai Objek Firebase Auth
-  final _auth = FirebaseAuth.instance;
   bool _obscureText = true;
   bool _isLoading = false;
 
@@ -174,9 +173,11 @@ class _LoginPageState extends State<LoginPage> {
       final password = _passwordController.text;
 
       // Metode Signin from Firebase
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
 
-      Navigator.pushReplacementNamed(context, HomePage.routeName);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          HomePage.routeName, (Route<dynamic> route) => false);
     } on FirebaseAuthException catch (e) {
       print('Failed with error code: ${e.code}');
       Toast.show(

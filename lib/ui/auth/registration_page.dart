@@ -11,8 +11,6 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  // Inisialisai Objek Firebase Auth
-  final _auth = FirebaseAuth.instance;
   bool _obscureText = true;
   bool _isLoading = false;
 
@@ -214,8 +212,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       final password = _passwordController.text;
 
       // Metode Signup form Firebase
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       Toast.show(
         'Successfullly Registration',
@@ -225,14 +223,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
         Toast.show(
           'The password provided is too weak.',
           context,
           backgroundColor: Colors.red.shade300,
         );
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
         Toast.show(
           'The account already exists for that email.',
           context,
@@ -246,6 +242,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           backgroundColor: Colors.red.shade300,
         );
       }
+    } catch (e) {
+      print(e);
     } finally {
       setState(() {
         _isLoading = false;
