@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/ui/restaurant/restaurant_search_page.dart';
 import 'package:restaurant_app/utils/result_state.dart';
 import 'package:restaurant_app/widgets/card_explore_restaurant.dart';
 import 'package:restaurant_app/widgets/card_new_restaurant.dart';
-import 'package:restaurant_app/widgets/search_input.dart';
 
 class RestaurantPage extends StatelessWidget {
   const RestaurantPage({
@@ -59,7 +59,25 @@ class RestaurantPage extends StatelessWidget {
               // NOTE: Widget Search
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 47),
-                child: SearchInput(),
+                child: TextField(
+                  readOnly: true,
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, RestaurantSearchPage.routeName);
+                  },
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 27),
+                    filled: false,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11),
+                    ),
+                    prefixIcon: IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {},
+                    ),
+                    hintText: 'Search',
+                  ),
+                ),
               ),
               SizedBox(
                 height: 28,

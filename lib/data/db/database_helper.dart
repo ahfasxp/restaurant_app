@@ -23,7 +23,9 @@ class DatabaseHelper {
         name TEXT,
         description TEXT,
         pictureId TEXT,
-        city TEXT)''');
+        city TEXT,
+        rating REAL)
+        ''');
       },
       version: 1,
     );
