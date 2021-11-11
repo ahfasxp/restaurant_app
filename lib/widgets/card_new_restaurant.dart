@@ -32,18 +32,31 @@ class CardNewRestaurant extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(
-                  10,
+            Container(
+              width: 128,
+              height: 103,
+              decoration: BoxDecoration(
+                color: greyColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(
+                    10,
+                  ),
                 ),
               ),
-              child: Image.network(
-                pictureUrl + restaurant.pictureId,
-                width: 128,
-                height: 103,
-                fit: BoxFit.cover,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(
+                    10,
+                  ),
+                ),
+                child: Image.network(
+                  pictureUrl + restaurant.pictureId,
+                  width: 128,
+                  height: 103,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(
