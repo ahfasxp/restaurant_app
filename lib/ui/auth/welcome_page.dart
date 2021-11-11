@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/auth/login_page.dart';
-import 'package:restaurant_app/ui/auth/registration_page.dart';
+import 'package:restaurant_app/ui/auth/register_page.dart';
 
 class WelcomePage extends StatefulWidget {
   static const routeName = '/welcome';
@@ -196,7 +196,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   height: 36,
                 ),
                 // NOTE: Condition Loading and Widget
-                selectedNavText == 0 ? RegistrationPage() : LoginPage(),
+                selectedNavText == 0 ? RegisterPage() : LoginPage(),
               ],
             ),
           );

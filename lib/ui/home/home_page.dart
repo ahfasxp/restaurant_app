@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/ui/account/account_page.dart';
 import 'package:restaurant_app/ui/favorite/favorites_page.dart';
-import 'package:restaurant_app/ui/profil/profil_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _listWidget = [
     RestaurantPage(),
     FavoritesPage(),
-    ProfilPage(),
+    AccountPage(),
   ];
 
   @override

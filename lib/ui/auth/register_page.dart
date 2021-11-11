@@ -1,16 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/utils/firestore_services.dart';
 import 'package:restaurant_app/widgets/toast_custom.dart';
 
-class RegistrationPage extends StatefulWidget {
-  RegistrationPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
-  _RegistrationPageState createState() => _RegistrationPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _RegisterPageState extends State<RegisterPage> {
   bool _obscureText = true;
   bool _isLoading = false;
 
@@ -207,16 +208,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
       _isLoading = true;
     });
     try {
-      // final name = _nameController.text;
+      final name = _nameController.text;
       final email = _emailController.text;
       final password = _passwordController.text;
 
       // Metode Signup form Firebase
       await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((result) => FirestoreServices.addUser(
+              uid: result.user!.uid, fullName: name, email: email));
 
       Toast.show(
-        'Successfullly Registration',
+        'Register Successfullly',
         context,
         backgroundColor: Colors.green.shade300,
       );

@@ -8,6 +8,8 @@ import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/provider/search_restaurant_provider.dart';
+import 'package:restaurant_app/ui/account/account_edit_page.dart';
+import 'package:restaurant_app/ui/account/account_setting_page.dart';
 import 'package:restaurant_app/ui/home/home_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/auth/welcome_page.dart';
@@ -52,6 +54,8 @@ class MyApp extends StatelessWidget {
                     ModalRoute.of(context)?.settings.arguments as Restaurant,
               ),
           RestaurantSearchPage.routeName: (context) => RestaurantSearchPage(),
+          AccountSettingPage.routeName: (context) => AccountSettingPage(),
+          AccountEditPage.routeName: (context) => AccountEditPage(),
         },
       ),
     );

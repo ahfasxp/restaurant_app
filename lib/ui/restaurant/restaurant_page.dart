@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_search_page.dart';
+import 'package:restaurant_app/utils/firestore_services.dart';
 import 'package:restaurant_app/utils/result_state.dart';
 import 'package:restaurant_app/widgets/card_explore_restaurant.dart';
 import 'package:restaurant_app/widgets/card_new_restaurant.dart';
@@ -27,32 +29,50 @@ class RestaurantPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(top: 32, right: 15, left: 15),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.place,
-                              color: greenColor,
-                            ),
-                            Text(
-                              'Agrabad 435, Chittagong',
-                              style: greyTextStyle.copyWith(
-                                fontSize: 12,
-                                color: Color(0xFF4B5563),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                          ],
-                        ),
-                      ),
                       CircleAvatar(
                         radius: 32,
                         backgroundColor: Colors.white,
                       ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      FutureBuilder<DocumentSnapshot>(
+                          future: FirestoreServices.getUser(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Text("Something went wrong");
+                            }
+                            if (snapshot.hasData && !snapshot.data!.exists) {
+                              return Text("Document does not exist");
+                            }
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              Map<String, dynamic> data =
+                                  snapshot.data!.data() as Map<String, dynamic>;
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    data['full_name'],
+                                    style: blackTextStyle.copyWith(
+                                      fontSize: 16,
+                                      color: Color(0xFF4B5563),
+                                    ),
+                                  ),
+                                  Text(
+                                    data['email'],
+                                    style: greyTextStyle.copyWith(
+                                      fontSize: 12,
+                                      color: Color(0xFF4B5563),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            return Text("loading");
+                          }),
                     ],
                   ),
                 ),

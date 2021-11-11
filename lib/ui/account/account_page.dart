@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/ui/account/account_setting_page.dart';
 import 'package:restaurant_app/ui/auth/welcome_page.dart';
+import 'package:restaurant_app/utils/firestore_services.dart';
 
-class ProfilPage extends StatelessWidget {
+class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var currentUser = FirebaseAuth.instance.currentUser;
-
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -34,20 +35,39 @@ class ProfilPage extends StatelessWidget {
                     SizedBox(
                       width: 16,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Sadek Hossen',
-                          style: blackTextStyle.copyWith(fontSize: 16),
-                        ),
-                        Text(
-                          currentUser!.email.toString(),
-                          style: greyTextStyle.copyWith(fontSize: 10),
-                        ),
-                      ],
-                    ),
+                    FutureBuilder<DocumentSnapshot>(
+                        future: FirestoreServices.getUser(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Text("Something went wrong");
+                          }
+
+                          if (snapshot.hasData && !snapshot.data!.exists) {
+                            return Text("Document does not exist");
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            Map<String, dynamic> data =
+                                snapshot.data!.data() as Map<String, dynamic>;
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data['full_name'],
+                                  style: blackTextStyle.copyWith(fontSize: 16),
+                                ),
+                                Text(
+                                  data['email'],
+                                  style: greyTextStyle.copyWith(fontSize: 10),
+                                ),
+                              ],
+                            );
+                          }
+
+                          return Text("loading");
+                        }),
                     Spacer(),
                     Container(
                       child: Icon(
@@ -68,22 +88,27 @@ class ProfilPage extends StatelessWidget {
                   color: whiteColor,
                   borderRadius: BorderRadius.circular(11),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.person_outlined),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    Text(
-                      'Account setting',
-                      style: profileTextStyle.copyWith(fontSize: 18),
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.edit,
-                      size: 14,
-                    ),
-                  ],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, AccountSettingPage.routeName);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.person_outlined),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      Text(
+                        'Account setting',
+                        style: profileTextStyle.copyWith(fontSize: 18),
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.edit,
+                        size: 14,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
