@@ -51,18 +51,4 @@ class FirebaseAuthHelper {
   signOut() {
     _auth.signOut();
   }
-
-  // static Future deleteUser(String email, String password) async {
-  //   try {
-  //     var currentUser = _auth.currentUser;
-  //     await FirebaseAuth.instance.currentUser!.delete();
-  //     await FirestoreServices.deleteUser(currentUser!.uid);
-  //     return true;
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'requires-recent-login') {
-  //       print(
-  //           'The user must reauthenticate before this operation can be executed.');
-  //     }
-  //   }
-  // }
 }
