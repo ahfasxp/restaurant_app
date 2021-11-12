@@ -112,10 +112,13 @@ class RestaurantDetailPage extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              pictureUrl + restaurant.pictureId,
-                              width: MediaQuery.of(context).size.width,
-                              fit: BoxFit.contain,
+                            child: Hero(
+                              tag: restaurant.pictureId,
+                              child: Image.network(
+                                pictureUrl + restaurant.pictureId,
+                                width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                           _fabImage(),

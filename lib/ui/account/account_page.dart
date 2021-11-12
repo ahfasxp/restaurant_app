@@ -1,3 +1,4 @@
+import 'package:avatars/avatars.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,20 +23,13 @@ class AccountPage extends StatelessWidget {
               ),
               Container(
                 height: 70,
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 13),
+                padding: EdgeInsets.symmetric(horizontal: 24),
                 decoration: BoxDecoration(
                   color: whiteColor,
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 32,
-                      backgroundColor: Colors.grey,
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
                     FutureBuilder<DocumentSnapshot>(
                         future: FirestoreServices.getUser(),
                         builder: (context, snapshot) {
@@ -51,17 +45,35 @@ class AccountPage extends StatelessWidget {
                               ConnectionState.done) {
                             Map<String, dynamic> data =
                                 snapshot.data!.data() as Map<String, dynamic>;
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            return Row(
                               children: [
-                                Text(
-                                  data['full_name'],
-                                  style: blackTextStyle.copyWith(fontSize: 16),
+                                SizedBox(
+                                  height: 60,
+                                  width: 60,
+                                  child: Avatar(
+                                    name: data['full_name'],
+                                    textStyle:
+                                        whiteTextStyle.copyWith(fontSize: 14),
+                                  ),
                                 ),
-                                Text(
-                                  data['email'],
-                                  style: greyTextStyle.copyWith(fontSize: 10),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data['full_name'],
+                                      style:
+                                          blackTextStyle.copyWith(fontSize: 16),
+                                    ),
+                                    Text(
+                                      data['email'],
+                                      style:
+                                          greyTextStyle.copyWith(fontSize: 10),
+                                    ),
+                                  ],
                                 ),
                               ],
                             );

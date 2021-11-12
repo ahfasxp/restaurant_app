@@ -1,3 +1,4 @@
+import 'package:avatars/avatars.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
@@ -28,52 +29,22 @@ class RestaurantPage extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(top: 32, right: 15, left: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 32,
-                        backgroundColor: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      FutureBuilder<DocumentSnapshot>(
-                          future: FirestoreServices.getUser(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Text("Something went wrong");
-                            }
-                            if (snapshot.hasData && !snapshot.data!.exists) {
-                              return Text("Document does not exist");
-                            }
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              Map<String, dynamic> data =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    data['full_name'],
-                                    style: blackTextStyle.copyWith(
-                                      fontSize: 16,
-                                      color: Color(0xFF4B5563),
-                                    ),
-                                  ),
-                                  Text(
-                                    data['email'],
-                                    style: greyTextStyle.copyWith(
-                                      fontSize: 12,
-                                      color: Color(0xFF4B5563),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                            return Text("loading");
-                          }),
-                    ],
+                  child: FutureBuilder<DocumentSnapshot>(
+                    future: FirestoreServices.getUser(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text("Something went wrong");
+                      }
+                      if (snapshot.hasData && !snapshot.data!.exists) {
+                        return Text("Document does not exist");
+                      }
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        Map<String, dynamic> data =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                        return rowAvatar(data);
+                      }
+                      return Text("loading");
+                    },
                   ),
                 ),
                 SizedBox(
@@ -227,6 +198,44 @@ class RestaurantPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget rowAvatar(Map<String, dynamic> data) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: 70,
+          height: 70,
+          child: Avatar(
+            name: data['full_name'],
+            textStyle: whiteTextStyle.copyWith(fontSize: 25),
+          ),
+        ),
+        SizedBox(
+          width: 8,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              data['full_name'],
+              style: blackTextStyle.copyWith(
+                fontSize: 16,
+                color: Color(0xFF4B5563),
+              ),
+            ),
+            Text(
+              data['email'],
+              style: greyTextStyle.copyWith(
+                fontSize: 12,
+                color: Color(0xFF4B5563),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -50,11 +50,14 @@ class CardExploreRestaurant extends StatelessWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          pictureUrl + restaurant.pictureId,
-                          width: 64,
-                          height: 64,
-                          fit: BoxFit.cover,
+                        child: Hero(
+                          tag: restaurant.pictureId,
+                          child: Image.network(
+                            pictureUrl + restaurant.pictureId,
+                            width: 64,
+                            height: 64,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
