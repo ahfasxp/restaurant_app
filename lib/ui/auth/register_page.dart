@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
-import 'package:restaurant_app/ui/home/home_page.dart';
 import 'package:restaurant_app/utils/auth/auth_exception_handler.dart';
 import 'package:restaurant_app/utils/auth/auth_result_status.dart';
 import 'package:restaurant_app/utils/auth/firebase_auth_helper.dart';
-import 'package:restaurant_app/utils/firestore_services.dart';
 import 'package:restaurant_app/widgets/toast_custom.dart';
 
 class RegisterPage extends StatefulWidget {

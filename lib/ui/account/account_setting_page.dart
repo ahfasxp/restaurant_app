@@ -1,3 +1,4 @@
+import 'package:avatars/avatars.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
@@ -30,13 +31,6 @@ class AccountSettingPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
                       FutureBuilder<DocumentSnapshot>(
                           future: FirestoreServices.getUser(),
                           builder: (context, snapshot) {
@@ -56,6 +50,21 @@ class AccountSettingPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: SizedBox(
+                                      height: 90,
+                                      width: 90,
+                                      child: Avatar(
+                                        name: data['full_name'],
+                                        textStyle: whiteTextStyle.copyWith(
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                   Text(
                                     'Name :',
                                     style:

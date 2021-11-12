@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/home/home_page.dart';
