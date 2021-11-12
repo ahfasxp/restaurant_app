@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/account/account_setting_page.dart';
 import 'package:restaurant_app/ui/auth/welcome_page.dart';
+import 'package:restaurant_app/utils/auth/firebase_auth_helper.dart';
 import 'package:restaurant_app/utils/firestore_services.dart';
 
 class AccountPage extends StatelessWidget {
@@ -212,7 +213,7 @@ class AccountPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   // Metode Signout from Firebase
-                  await FirebaseAuth.instance.signOut();
+                  FirebaseAuthHelper().signOut();
                   Navigator.pushReplacementNamed(
                       context, WelcomePage.routeName);
                 },

@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/ui/home/home_page.dart';
+import 'package:restaurant_app/utils/auth/auth_exception_handler.dart';
+import 'package:restaurant_app/utils/auth/auth_result_status.dart';
+import 'package:restaurant_app/utils/auth/firebase_auth_helper.dart';
 import 'package:restaurant_app/utils/firestore_services.dart';
 import 'package:restaurant_app/widgets/toast_custom.dart';
 
@@ -207,55 +211,36 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      final name = _nameController.text;
-      final email = _emailController.text;
-      final password = _passwordController.text;
+    final fullName = _nameController.text;
+    final email = _emailController.text;
+    final password = _passwordController.text;
 
-      // Metode Signup form Firebase
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((result) => FirestoreServices.addUser(
-              uid: result.user!.uid, fullName: name, email: email));
+    final status = await FirebaseAuthHelper()
+        .createAccount(fullName: fullName, email: email, password: password);
 
+    if (status == AuthResultStatus.successful) {
       Toast.show(
         'Register Successfullly',
         context,
         backgroundColor: Colors.green.shade300,
       );
       Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        Toast.show(
-          'The password provided is too weak.',
-          context,
-          backgroundColor: Colors.red.shade300,
-        );
-      } else if (e.code == 'email-already-in-use') {
-        Toast.show(
-          'The account already exists for that email.',
-          context,
-          backgroundColor: Colors.red.shade300,
-        );
-      } else {
-        print('Failed with error code: ${e.code}');
-        Toast.show(
-          e.message.toString(),
-          context,
-          backgroundColor: Colors.red.shade300,
-        );
-      }
-    } catch (e) {
-      print(e);
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+    } else {
+      final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
+      Toast.show(
+        errorMsg,
+        context,
+        backgroundColor: Colors.red.shade300,
+      );
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();

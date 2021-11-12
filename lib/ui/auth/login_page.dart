@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/home/home_page.dart';
+import 'package:restaurant_app/utils/auth/auth_exception_handler.dart';
+import 'package:restaurant_app/utils/auth/auth_result_status.dart';
+import 'package:restaurant_app/utils/auth/firebase_auth_helper.dart';
 import 'package:restaurant_app/widgets/toast_custom.dart';
 
 class LoginPage extends StatefulWidget {
@@ -168,28 +171,25 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      final email = _emailController.text;
-      final password = _passwordController.text;
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    final status =
+        await FirebaseAuthHelper().signIn(email: email, password: password);
 
-      // Metode Signin from Firebase
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-
+    if (status == AuthResultStatus.successful) {
       Navigator.of(context).pushNamedAndRemoveUntil(
           HomePage.routeName, (Route<dynamic> route) => false);
-    } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
+    } else {
+      final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
       Toast.show(
-        e.message.toString(),
+        errorMsg,
         context,
         backgroundColor: Colors.red.shade300,
       );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
