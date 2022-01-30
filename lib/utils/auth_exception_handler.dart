@@ -1,4 +1,4 @@
-import 'package:restaurant_app/utils/auth/auth_result_status.dart';
+import 'package:restaurant_app/utils/auth_result_status.dart';
 
 class AuthExceptionHandler {
   static handleException(e) {

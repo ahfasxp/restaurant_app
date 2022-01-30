@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
-import 'package:restaurant_app/utils/firestore_services.dart';
+import 'package:restaurant_app/provider/auth_provider.dart';
 import 'package:restaurant_app/widgets/toast_custom.dart';
 
 class AccountEditPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _AccountEditPageState extends State<AccountEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -55,7 +58,7 @@ class _AccountEditPageState extends State<AccountEditPage> {
                       width: 2.0,
                     ),
                   ),
-                  hintText: 'Enter your full name',
+                  hintText: 'Enter Fullname',
                 ),
               ),
             ),
@@ -139,12 +142,14 @@ class _AccountEditPageState extends State<AccountEditPage> {
                 onPressed: () async {
                   try {
                     final fullName = _fullNameController.text;
-                    final telephon = _telephonController.text;
+                    final telephone = _telephonController.text;
                     final address = _addressController.text;
-                    await FirestoreServices.updateUser(
-                        fullName: fullName,
-                        telephon: telephon,
-                        address: address);
+                    await authProvider.updateUser(
+                      uid: authProvider.user.uid,
+                      fullName: fullName,
+                      telephone: telephone,
+                      address: address,
+                    );
                     Navigator.pop(context);
                     Toast.show(
                       'Update Successfully',

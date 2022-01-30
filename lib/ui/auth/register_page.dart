@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
-import 'package:restaurant_app/utils/auth/auth_exception_handler.dart';
-import 'package:restaurant_app/utils/auth/auth_result_status.dart';
-import 'package:restaurant_app/utils/auth/firebase_auth_helper.dart';
+import 'package:restaurant_app/provider/auth_provider.dart';
+import 'package:restaurant_app/utils/auth_exception_handler.dart';
+import 'package:restaurant_app/utils/auth_result_status.dart';
 import 'package:restaurant_app/widgets/toast_custom.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -212,7 +213,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    final status = await FirebaseAuthHelper()
+    final status = await Provider.of<AuthProvider>(context, listen: false)
         .createAccount(fullName: fullName, email: email, password: password);
 
     if (status == AuthResultStatus.successful) {

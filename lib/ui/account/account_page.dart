@@ -1,11 +1,10 @@
 import 'package:avatars/avatars.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/provider/auth_provider.dart';
 import 'package:restaurant_app/ui/account/account_setting_page.dart';
 import 'package:restaurant_app/ui/auth/welcome_page.dart';
-import 'package:restaurant_app/utils/auth/firebase_auth_helper.dart';
-import 'package:restaurant_app/utils/firestore_services.dart';
 
 class AccountPage extends StatelessWidget {
   @override
@@ -27,68 +26,45 @@ class AccountPage extends StatelessWidget {
                   color: whiteColor,
                   borderRadius: BorderRadius.circular(11),
                 ),
-                child: Row(
-                  children: [
-                    FutureBuilder<DocumentSnapshot>(
-                        future: FirestoreServices.getUser(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text("Something went wrong");
-                          }
-
-                          if (snapshot.hasData && !snapshot.data!.exists) {
-                            return Text("Document does not exist");
-                          }
-
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            Map<String, dynamic> data =
-                                snapshot.data!.data() as Map<String, dynamic>;
-                            return Row(
-                              children: [
-                                SizedBox(
-                                  height: 60,
-                                  width: 60,
-                                  child: Avatar(
-                                    name: data['full_name'],
-                                    textStyle:
-                                        whiteTextStyle.copyWith(fontSize: 14),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data['full_name'],
-                                      style:
-                                          blackTextStyle.copyWith(fontSize: 16),
-                                    ),
-                                    Text(
-                                      data['email'],
-                                      style:
-                                          greyTextStyle.copyWith(fontSize: 10),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          }
-
-                          return Text("loading");
-                        }),
-                    Spacer(),
-                    Container(
-                      child: Icon(
-                        Icons.notifications,
-                        color: greyColor,
+                child:
+                    Consumer<AuthProvider>(builder: (context, provider, child) {
+                  return Row(
+                    children: [
+                      SizedBox(
+                        height: 60,
+                        width: 60,
+                        child: Avatar(
+                          name: provider.user.fullName,
+                          textStyle: whiteTextStyle.copyWith(fontSize: 14),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            provider.user.fullName,
+                            style: blackTextStyle.copyWith(fontSize: 16),
+                          ),
+                          Text(
+                            provider.user.email,
+                            style: greyTextStyle.copyWith(fontSize: 10),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Container(
+                        child: Icon(
+                          Icons.notifications,
+                          color: greyColor,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
               ),
               SizedBox(
                 height: 40,
@@ -222,9 +198,9 @@ class AccountPage extends StatelessWidget {
                 height: 40,
               ),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   // Metode Signout from Firebase
-                  FirebaseAuthHelper().signOut();
+                  Provider.of<AuthProvider>(context, listen: false).signOut();
                   Navigator.pushReplacementNamed(
                       context, WelcomePage.routeName);
                 },

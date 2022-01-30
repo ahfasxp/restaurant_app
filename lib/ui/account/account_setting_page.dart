@@ -1,9 +1,9 @@
 import 'package:avatars/avatars.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/provider/auth_provider.dart';
 import 'package:restaurant_app/ui/account/account_edit_page.dart';
-import 'package:restaurant_app/utils/firestore_services.dart';
 
 class AccountSettingPage extends StatelessWidget {
   static const routeName = '/restaurant/account/setting';
@@ -28,99 +28,72 @@ class AccountSettingPage extends StatelessWidget {
                     color: whiteColor,
                     borderRadius: BorderRadius.circular(11),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FutureBuilder<DocumentSnapshot>(
-                          future: FirestoreServices.getUser(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Text("Something went wrong");
-                            }
-
-                            if (snapshot.hasData && !snapshot.data!.exists) {
-                              return Text("Document does not exist");
-                            }
-
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              Map<String, dynamic> data =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: SizedBox(
-                                      height: 90,
-                                      width: 90,
-                                      child: Avatar(
-                                        name: data['full_name'],
-                                        textStyle: whiteTextStyle.copyWith(
-                                            fontSize: 18),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    'Name :',
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  Text(
-                                    data['full_name'],
-                                    style: greyTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Email :',
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  Text(
-                                    data['email'],
-                                    style: greyTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Telephone :',
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  Text(
-                                    data['telephone'] ?? '',
-                                    style: greyTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Address :',
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  Text(
-                                    data['address'] ?? '',
-                                    style: greyTextStyle.copyWith(fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              );
-                            }
-
-                            return Text("loading");
-                          }),
-                    ],
-                  ),
+                  child: Consumer<AuthProvider>(
+                      builder: (context, provider, child) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            height: 90,
+                            width: 90,
+                            child: Avatar(
+                              name: provider.user.fullName,
+                              textStyle: whiteTextStyle.copyWith(fontSize: 18),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Name :',
+                          style: blackTextStyle.copyWith(fontSize: 16),
+                        ),
+                        Text(
+                          provider.user.fullName,
+                          style: greyTextStyle.copyWith(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Email :',
+                          style: blackTextStyle.copyWith(fontSize: 16),
+                        ),
+                        Text(
+                          provider.user.email,
+                          style: greyTextStyle.copyWith(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Telephone :',
+                          style: blackTextStyle.copyWith(fontSize: 16),
+                        ),
+                        Text(
+                          provider.user.telephone ?? '',
+                          style: greyTextStyle.copyWith(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Address :',
+                          style: blackTextStyle.copyWith(fontSize: 16),
+                        ),
+                        Text(
+                          provider.user.address ?? '',
+                          style: greyTextStyle.copyWith(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    );
+                  }),
                 ),
                 SizedBox(
                   height: 40,
