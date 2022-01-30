@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
 
 class CardNewRestaurant extends StatelessWidget {
@@ -13,8 +15,12 @@ class CardNewRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DetailRestaurantProvider detailRestaurantProvider =
+        Provider.of<DetailRestaurantProvider>(context);
+
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        await detailRestaurantProvider.fetchDetailRestaurant(restaurant.id);
         Navigator.pushNamed(
           context,
           RestaurantDetailPage.routeName,

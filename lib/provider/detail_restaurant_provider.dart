@@ -5,32 +5,36 @@ import 'package:restaurant_app/utils/result_state.dart';
 
 class DetailRestaurantProvider extends ChangeNotifier {
   final ApiService apiService;
-  final String id;
 
-  DetailRestaurantProvider({required this.apiService, required this.id}) {
-    _fetchDetailRestaurant(id);
-  }
+  DetailRestaurantProvider({required this.apiService});
+
+  late DetailRestaurantResult _detailRestaurantResult;
+  DetailRestaurantResult get result => _detailRestaurantResult;
 
   late ResultState _state;
-  late DetailRestaurantResult _detailRestaurantResult;
-  String _message = '';
-
   ResultState get state => _state;
-  DetailRestaurantResult get result => _detailRestaurantResult;
+
+  String _message = '';
   String get message => _message;
 
-  Future<dynamic> _fetchDetailRestaurant(String id) async {
+  Future<void> fetchDetailRestaurant(String id) async {
     try {
       _state = ResultState.Loading;
       notifyListeners();
       final detailRestaurant = await apiService.detailRestaurant(id);
-      _state = ResultState.HasData;
-      notifyListeners();
-      return _detailRestaurantResult = detailRestaurant;
+      if (detailRestaurant.restaurant.id.isEmpty) {
+        _state = ResultState.NoData;
+        _message = 'Empty Data';
+        notifyListeners();
+      } else {
+        _state = ResultState.HasData;
+        _detailRestaurantResult = detailRestaurant;
+        notifyListeners();
+      }
     } catch (e) {
       _state = ResultState.Error;
+      _message = 'Error --> $e';
       notifyListeners();
-      return _message = 'Error --> $e';
     }
   }
 }

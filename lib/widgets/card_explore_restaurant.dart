@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
+import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
 
 class CardExploreRestaurant extends StatelessWidget {
@@ -17,13 +18,18 @@ class CardExploreRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DetailRestaurantProvider detailRestaurantProvider =
+        Provider.of<DetailRestaurantProvider>(context);
+
     return Consumer<DatabaseProvider>(builder: (context, provider, _) {
       return FutureBuilder<bool>(
           future: provider.isFavorited(restaurant.id),
           builder: (context, snapshot) {
             var isFavorited = snapshot.data ?? false;
             return GestureDetector(
-              onTap: () {
+              onTap: () async {
+                await detailRestaurantProvider
+                    .fetchDetailRestaurant(restaurant.id);
                 Navigator.pushNamed(
                   context,
                   RestaurantDetailPage.routeName,

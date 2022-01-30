@@ -9,15 +9,14 @@ class DatabaseProvider extends ChangeNotifier {
   DatabaseProvider({required this.databaseHelper}) {
     _getFavorites();
   }
+  List<Restaurant> _favorites = [];
+  List<Restaurant> get favorites => _favorites;
 
   late ResultState _state;
   ResultState get state => _state;
 
   String _message = '';
   String get message => _message;
-
-  List<Restaurant> _favorites = [];
-  List<Restaurant> get favorites => _favorites;
 
   void _getFavorites() async {
     _favorites = await databaseHelper.getFavorite();

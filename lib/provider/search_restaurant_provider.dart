@@ -8,39 +8,33 @@ class SearchRestaurantProvider extends ChangeNotifier {
 
   SearchRestaurantProvider({required this.apiService});
 
-  late ResultState _state = ResultState.NoData;
   late RestaurantResult _restaurantResult;
-  String _message = '';
-  String _query = '';
-
-  ResultState get state => _state;
   RestaurantResult get result => _restaurantResult;
+
+  ResultState _state = ResultState.NoData;
+  ResultState get state => _state;
+
+  String _message = '';
   String get message => _message;
-  String get query => _query;
 
-  String onSearch(String query) {
-    notifyListeners();
-    return _query = query;
-  }
-
-  Future<dynamic> fetchSearchRestaurant(String query) async {
+  Future<void> fetchSearchRestaurant(String query) async {
     try {
       _state = ResultState.Loading;
       notifyListeners();
       final restaurants = await apiService.searchRestaurant(query);
       if (restaurants.restaurants.isEmpty) {
         _state = ResultState.NoData;
+        _message = 'Empty Data';
         notifyListeners();
-        return _message = 'Empty Data';
       } else {
         _state = ResultState.HasData;
+        _restaurantResult = restaurants;
         notifyListeners();
-        return _restaurantResult = restaurants;
       }
     } catch (e) {
       _state = ResultState.Error;
+      _message = 'Error --> $e';
       notifyListeners();
-      return _message = 'Error --> $e';
     }
   }
 }

@@ -25,7 +25,6 @@ class RestaurantSearchPage extends StatelessWidget {
                 ),
                 child: TextField(
                   onChanged: (query) {
-                    provider.onSearch(query);
                     provider.fetchSearchRestaurant(query);
                   },
                   autofocus: true,
@@ -72,7 +71,7 @@ class RestaurantSearchPage extends StatelessWidget {
         },
       );
     } else if (provider.state == ResultState.NoData) {
-      return Text('Restaurant tidak ditemukan');
+      return Text(provider.message);
     } else if (provider.state == ResultState.Error) {
       print(provider.message);
       return Text('');
