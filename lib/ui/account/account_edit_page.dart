@@ -58,7 +58,7 @@ class _AccountEditPageState extends State<AccountEditPage> {
                       width: 2.0,
                     ),
                   ),
-                  hintText: 'Enter Fullname',
+                  hintText: 'Enter your fullname',
                 ),
               ),
             ),

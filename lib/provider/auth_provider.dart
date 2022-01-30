@@ -65,8 +65,13 @@ class AuthProvider extends ChangeNotifier {
         _status = AuthResultStatus.undefined;
         notifyListeners();
       }
+    } on FirebaseAuthException catch (e) {
+      _status = AuthExceptionHandler.handleException(e);
+      notifyListeners();
     } catch (e) {
-      throw Exception('Failed to signIn, error: $e');
+      print('Exception @signIn: $e');
+      _status = AuthExceptionHandler.handleException(e);
+      notifyListeners();
     }
 
     return _status;

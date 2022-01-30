@@ -32,6 +32,7 @@ class AuthExceptionHandler {
       default:
         status = AuthResultStatus.undefined;
     }
+
     return status;
   }
 
