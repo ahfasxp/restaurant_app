@@ -1,3 +1,5 @@
+import 'package:restaurant_app/data/model/detail_restaurant.dart';
+
 class RestaurantResult {
   RestaurantResult({
     required this.restaurants,
@@ -24,6 +26,7 @@ class Restaurant {
     required this.pictureId,
     required this.city,
     required this.rating,
+    required this.menus,
   });
 
   String id;
@@ -32,6 +35,7 @@ class Restaurant {
   String pictureId;
   String city;
   double rating;
+  Menus menus;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         id: json["id"],
@@ -40,6 +44,7 @@ class Restaurant {
         pictureId: json["pictureId"],
         city: json["city"],
         rating: json["rating"].toDouble(),
+        menus: Menus.fromJson(json["menus"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,5 +54,6 @@ class Restaurant {
         "pictureId": pictureId,
         "city": city,
         "rating": rating,
+        "menus": menus.toJson(),
       };
 }
