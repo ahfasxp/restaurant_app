@@ -1,6 +1,5 @@
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/auth/login_page.dart';
 import 'package:restaurant_app/ui/auth/register_page.dart';

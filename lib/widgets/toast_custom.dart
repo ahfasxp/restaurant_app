@@ -4,7 +4,6 @@
 // combined because when the package was published, the toast was not null safety in pub.dev
 // copas from package double_back_to_close
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Toast {
   static final int lengthShort = 1;
