@@ -13,7 +13,7 @@ import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/splash/splash_page.dart';
 
-void main() async {
+void main() {
   runApp(MyApp());
 }
 
