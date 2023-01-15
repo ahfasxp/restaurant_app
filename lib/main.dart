@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -11,9 +10,7 @@ import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/splash/splash_page.dart';
 
-void main() async {
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+void main() {
   runApp(MyApp());
 }
 
