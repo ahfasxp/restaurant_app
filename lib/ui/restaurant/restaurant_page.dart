@@ -1,10 +1,7 @@
-import 'package:avatars/avatars.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
-import 'package:restaurant_app/data/model/user_model.dart';
-import 'package:restaurant_app/provider/auth_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_search_page.dart';
 import 'package:restaurant_app/utils/result_state.dart';
@@ -27,13 +24,6 @@ class RestaurantPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.only(top: 32, right: 15, left: 15),
-                  child: Consumer<AuthProvider>(
-                      builder: (context, provider, child) {
-                    return rowAvatar(provider.user);
-                  }),
-                ),
                 SizedBox(
                   height: 16,
                 ),
@@ -185,44 +175,6 @@ class RestaurantPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget rowAvatar(UserModel user) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          width: 70,
-          height: 70,
-          child: Avatar(
-            name: user.fullName,
-            textStyle: whiteTextStyle.copyWith(fontSize: 25),
-          ),
-        ),
-        SizedBox(
-          width: 8,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              user.fullName,
-              style: blackTextStyle.copyWith(
-                fontSize: 16,
-                color: Color(0xFF4B5563),
-              ),
-            ),
-            Text(
-              user.email,
-              style: greyTextStyle.copyWith(
-                fontSize: 12,
-                color: Color(0xFF4B5563),
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

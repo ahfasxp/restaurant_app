@@ -1,28 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/db/database_helper.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
-import 'package:restaurant_app/provider/auth_provider.dart';
-import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/provider/search_restaurant_provider.dart';
-import 'package:restaurant_app/ui/account/account_edit_page.dart';
-import 'package:restaurant_app/ui/account/account_setting_page.dart';
-import 'package:restaurant_app/ui/home/home_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
-import 'package:restaurant_app/ui/auth/welcome_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/splash/splash_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp());
@@ -41,13 +30,7 @@ class MyApp extends StatelessWidget {
           create: (_) => DetailRestaurantProvider(apiService: ApiService()),
         ),
         ChangeNotifierProvider(
-          create: (_) => DatabaseProvider(databaseHelper: DatabaseHelper()),
-        ),
-        ChangeNotifierProvider(
           create: (_) => SearchRestaurantProvider(apiService: ApiService()),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => AuthProvider(firebaseAuth: FirebaseAuth.instance),
         ),
       ],
       child: MaterialApp(
@@ -59,15 +42,11 @@ class MyApp extends StatelessWidget {
         initialRoute: SplashPage.routeName,
         routes: {
           SplashPage.routeName: (context) => SplashPage(),
-          WelcomePage.routeName: (context) => WelcomePage(),
-          HomePage.routeName: (context) => HomePage(),
           RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
                 restaurant:
                     ModalRoute.of(context)?.settings.arguments as Restaurant,
               ),
           RestaurantSearchPage.routeName: (context) => RestaurantSearchPage(),
-          AccountSettingPage.routeName: (context) => AccountSettingPage(),
-          AccountEditPage.routeName: (context) => AccountEditPage(),
         },
       ),
     );

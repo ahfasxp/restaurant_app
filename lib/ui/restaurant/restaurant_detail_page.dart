@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/detail_restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
-import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
 import 'package:restaurant_app/utils/result_state.dart';
 
@@ -104,21 +103,16 @@ class RestaurantDetailPage extends StatelessWidget {
                             SizedBox(
                               height: 24,
                             ),
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Hero(
-                                    tag: detailRestaurant.pictureId,
-                                    child: Image.network(
-                                      pictureUrl + detailRestaurant.pictureId,
-                                      width: MediaQuery.of(context).size.width,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Hero(
+                                tag: detailRestaurant.pictureId,
+                                child: Image.network(
+                                  pictureUrl + detailRestaurant.pictureId,
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.contain,
                                 ),
-                                _fabImage(),
-                              ],
+                              ),
                             ),
                             SizedBox(
                               height: 8,
@@ -145,11 +139,11 @@ class RestaurantDetailPage extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            _foodMenu(detailRestaurant),
+                            _foodsMenu(detailRestaurant),
                             SizedBox(
                               height: 10,
                             ),
-                            _drinkMenu(detailRestaurant),
+                            _drinksMenu(detailRestaurant),
                           ],
                         ),
                       ),
@@ -165,54 +159,14 @@ class RestaurantDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _fabImage() {
-    return Consumer<DatabaseProvider>(
-      builder: (context, provider, _) {
-        return FutureBuilder<bool>(
-          future: provider.isFavorited(restaurant.id),
-          builder: (context, snapshot) {
-            var isFavorited = snapshot.data ?? false;
-            return Positioned(
-              bottom: 10,
-              right: 10,
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: whiteColor,
-                ),
-                child: isFavorited
-                    ? IconButton(
-                        onPressed: () => provider.removeFavorite(restaurant.id),
-                        icon: Icon(
-                          Icons.favorite,
-                          color: greenColor,
-                        ),
-                      )
-                    : IconButton(
-                        onPressed: () => provider.addFavorite(restaurant),
-                        icon: Icon(
-                          Icons.favorite_outline,
-                          color: greenColor,
-                        ),
-                      ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _foodMenu(DetailRestaurant detailRestaurant) {
+  Widget _foodsMenu(DetailRestaurant detailRestaurant) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 18),
           child: Text(
-            'Food Menu',
+            'Foods Menu',
             style: blackTextStyle.copyWith(
               fontSize: 14,
             ),
@@ -249,7 +203,7 @@ class RestaurantDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _drinkMenu(DetailRestaurant detailRestaurant) {
+  Widget _drinksMenu(DetailRestaurant detailRestaurant) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Column(
@@ -258,7 +212,7 @@ class RestaurantDetailPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 18),
             child: Text(
-              'Food Menu',
+              'Drinks Menu',
               style: blackTextStyle.copyWith(
                 fontSize: 14,
               ),
