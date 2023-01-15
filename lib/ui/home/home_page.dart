@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
-import 'package:restaurant_app/ui/account/account_page.dart';
 import 'package:restaurant_app/ui/favorite/favorites_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_page.dart';
+import 'package:restaurant_app/ui/setting/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -24,15 +24,15 @@ class _HomePageState extends State<HomePage> {
       label: 'Favorites',
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.person_sharp),
-      label: 'Profile',
+      icon: Icon(Icons.settings),
+      label: 'Settings',
     ),
   ];
 
   List<Widget> _listWidget = [
     RestaurantPage(),
     FavoritesPage(),
-    AccountPage(),
+    SettingsPage(),
   ];
 
   @override
