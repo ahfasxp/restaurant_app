@@ -42,8 +42,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _notificationHelper
-        .configureSelectNotificationSubject(RestaurantDetailPage.routeName);
+    _notificationHelper.configureSelectNotificationSubject(
+        RestaurantDetailPage.routeName, context);
   }
 
   @override

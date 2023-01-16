@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 final selectNotificationSubject = BehaviorSubject<String>();
@@ -75,11 +78,15 @@ class NotificationHelper {
         payload: json.encode(restaurant.toJson()));
   }
 
-  void configureSelectNotificationSubject(String route) {
+  void configureSelectNotificationSubject(String route, BuildContext context) {
     selectNotificationSubject.stream.listen(
       (String payload) async {
-        var data = RestaurantResult.fromJson(json.decode(payload));
-        var restaurant = data;
+        Restaurant restaurant = Restaurant.fromJson(json.decode(payload));
+
+        DetailRestaurantProvider detailRestaurantProvider =
+            Provider.of<DetailRestaurantProvider>(context, listen: false);
+        await detailRestaurantProvider.fetchDetailRestaurant(restaurant.id);
+
         Navigation.intentWithData(route, restaurant);
       },
     );

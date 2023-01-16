@@ -36,10 +36,8 @@ class RestaurantDetailPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Consumer<DetailRestaurantProvider>(
-              builder: (context, provider, child) {
+        child: Consumer<DetailRestaurantProvider>(
+          builder: (context, provider, child) {
             DetailRestaurant detailRestaurant = provider.result.restaurant;
             return provider.state == ResultState.HasData
                 ? Column(
@@ -158,8 +156,14 @@ class RestaurantDetailPage extends StatelessWidget {
                       ),
                     ],
                   )
-                : CircularProgressIndicator();
-          }),
+                : Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.40),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+          },
         ),
       ),
     );
