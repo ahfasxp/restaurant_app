@@ -57,14 +57,11 @@ class CardNewRestaurant extends StatelessWidget {
                     10,
                   ),
                 ),
-                child: Hero(
-                  tag: restaurant.pictureId,
-                  child: Image.network(
-                    pictureUrl + restaurant.pictureId,
-                    width: 128,
-                    height: 103,
-                    fit: BoxFit.cover,
-                  ),
+                child: Image.network(
+                  pictureUrl + restaurant.pictureId,
+                  width: 128,
+                  height: 103,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
