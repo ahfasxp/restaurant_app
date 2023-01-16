@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/favorite/favorites_page.dart';
+import 'package:restaurant_app/ui/restaurant/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant/restaurant_page.dart';
 import 'package:restaurant_app/ui/setting/settings_page.dart';
+import 'package:restaurant_app/utils/notification_helper.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -12,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
   int bottomNavIndex = 0;
 
   List<BottomNavigationBarItem> _bottomNavBarItems = [
@@ -36,6 +40,13 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantDetailPage.routeName);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -58,5 +69,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 }
