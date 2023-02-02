@@ -53,19 +53,25 @@ class RestaurantPage extends StatelessWidget {
                         future: DefaultAssetBundle.of(context)
                             .loadString('assets/json/local_restaurant.json'),
                         builder: (context, AsyncSnapshot snapshot) {
-                          final RestaurantResult restaurantResult =
-                              RestaurantResult.fromJson(
-                                  json.decode(snapshot.data));
+                          if (snapshot.hasData) {
+                            final RestaurantResult restaurantResult =
+                                RestaurantResult.fromJson(
+                                    json.decode(snapshot.data));
 
-                          return Column(
-                            children: restaurantResult.restaurants
-                                .map(
-                                  (item) => CardExploreRestaurant(
-                                    restaurant: item,
-                                  ),
-                                )
-                                .toList(),
-                          );
+                            return Column(
+                              children: restaurantResult.restaurants
+                                  .map(
+                                    (item) => CardExploreRestaurant(
+                                      restaurant: item,
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
                         },
                       ),
                     ],
