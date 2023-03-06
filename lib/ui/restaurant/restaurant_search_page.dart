@@ -73,8 +73,7 @@ class RestaurantSearchPage extends StatelessWidget {
     } else if (provider.state == ResultState.NoData) {
       return Text(provider.message);
     } else if (provider.state == ResultState.Error) {
-      print(provider.message);
-      return Text('');
+      return Text(provider.message);
     } else {
       return Text('');
     }
