@@ -42,8 +42,12 @@ class RestaurantDetailPage extends StatelessWidget {
               DetailRestaurant detailRestaurant = provider.result.restaurant;
 
               if (provider.state == ResultState.Loading) {
-                return Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.40),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               } else if (provider.state == ResultState.HasData) {
                 return Column(
@@ -158,11 +162,17 @@ class RestaurantDetailPage extends StatelessWidget {
                   ],
                 );
               } else if (provider.state == ResultState.NoData) {
-                return Center(child: Text(provider.message));
+                return Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.40),
+                    child: Center(child: Text(provider.message)));
               } else if (provider.state == ResultState.Error) {
-                return Center(child: Text(provider.message));
+                return Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.40),
+                    child: Center(child: Text(provider.message)));
               } else {
-                return Center(child: Text(''));
+                return SizedBox();
               }
             },
           ),
