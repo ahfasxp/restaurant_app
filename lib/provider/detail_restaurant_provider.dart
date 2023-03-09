@@ -33,7 +33,7 @@ class DetailRestaurantProvider extends ChangeNotifier {
       }
     } catch (e) {
       _state = ResultState.Error;
-      _message = 'Error --> $e';
+      _message = 'Maaf, kamu tidak memiliki koneksi internet';
       notifyListeners();
     }
   }
