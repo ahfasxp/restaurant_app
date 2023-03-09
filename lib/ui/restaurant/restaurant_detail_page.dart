@@ -38,8 +38,6 @@ class RestaurantDetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Consumer<DetailRestaurantProvider>(
           builder: (context, provider, child) {
-            DetailRestaurant detailRestaurant = provider.result.restaurant;
-
             if (provider.state == ResultState.Loading) {
               return Container(
                 margin: EdgeInsets.only(
@@ -49,6 +47,8 @@ class RestaurantDetailPage extends StatelessWidget {
                 ),
               );
             } else if (provider.state == ResultState.HasData) {
+              DetailRestaurant detailRestaurant = provider.result.restaurant;
+
               return Column(
                 children: [
                   SizedBox(
