@@ -39,127 +39,140 @@ class RestaurantDetailPage extends StatelessWidget {
         child: Consumer<DetailRestaurantProvider>(
           builder: (context, provider, child) {
             DetailRestaurant detailRestaurant = provider.result.restaurant;
-            return provider.state == ResultState.HasData
-                ? Column(
-                    children: [
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 18, vertical: 20),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+
+            if (provider.state == ResultState.Loading) {
+              return Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.40),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else if (provider.state == ResultState.HasData) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Text(
+                                  detailRestaurant.name,
+                                  style: blackTextStyle.copyWith(fontSize: 20),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Row(
                                   children: [
-                                    Text(
-                                      detailRestaurant.name,
-                                      style:
-                                          blackTextStyle.copyWith(fontSize: 20),
+                                    Icon(
+                                      Icons.place,
+                                      color: greenColor,
+                                      size: 16,
                                     ),
                                     SizedBox(
-                                      height: 4,
+                                      width: 4,
                                     ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.place,
-                                          color: greenColor,
-                                          size: 16,
-                                        ),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          detailRestaurant.city,
-                                          style: greyTextStyle.copyWith(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      detailRestaurant.city,
+                                      style: greyTextStyle.copyWith(
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Spacer(),
-                                Icon(
-                                  Icons.star,
-                                  color: greenColor,
-                                ),
-                                Text(
-                                  detailRestaurant.rating.toString(),
-                                  style: blackTextStyle.copyWith(fontSize: 16),
-                                ),
                               ],
                             ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    pictureUrl + detailRestaurant.pictureId,
-                                    width: MediaQuery.of(context).size.width,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                _fabImage(),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 8,
+                            Spacer(),
+                            Icon(
+                              Icons.star,
+                              color: greenColor,
                             ),
                             Text(
-                              'Description',
-                              style: blackTextStyle.copyWith(fontSize: 14),
-                            ),
-                            Text(
-                              detailRestaurant.description,
-                              style: greyTextStyle.copyWith(fontSize: 12),
+                              detailRestaurant.rating.toString(),
+                              style: blackTextStyle.copyWith(fontSize: 16),
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.circular(16),
+                        SizedBox(
+                          height: 24,
                         ),
-                        child: Column(
+                        Stack(
                           children: [
-                            _foodMenu(detailRestaurant),
-                            SizedBox(
-                              height: 10,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                pictureUrl + detailRestaurant.pictureId,
+                                width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.contain,
+                              ),
                             ),
-                            _drinkMenu(detailRestaurant),
+                            _fabImage(),
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                    ],
-                  )
-                : Container(
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.40),
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'Description',
+                          style: blackTextStyle.copyWith(fontSize: 14),
+                        ),
+                        Text(
+                          detailRestaurant.description,
+                          style: greyTextStyle.copyWith(fontSize: 12),
+                        ),
+                      ],
                     ),
-                  );
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      children: [
+                        _foodMenu(detailRestaurant),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _drinkMenu(detailRestaurant),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                ],
+              );
+            } else if (provider.state == ResultState.NoData) {
+              return Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.40),
+                  child: Center(child: Text(provider.message)));
+            } else if (provider.state == ResultState.Error) {
+              return Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.40),
+                  child: Center(child: Text(provider.message)));
+            } else {
+              return SizedBox();
+            }
           },
         ),
       ),
@@ -259,7 +272,7 @@ class RestaurantDetailPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 18),
             child: Text(
-              'Food Menu',
+              'Drinks Menu',
               style: blackTextStyle.copyWith(
                 fontSize: 14,
               ),
@@ -273,7 +286,7 @@ class RestaurantDetailPage extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: detailRestaurant.menus.foods.length,
+              itemCount: detailRestaurant.menus.drinks.length,
               itemBuilder: (context, index) {
                 var detail = detailRestaurant.menus.drinks[index];
                 return Container(
