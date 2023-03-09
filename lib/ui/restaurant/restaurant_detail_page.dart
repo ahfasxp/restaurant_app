@@ -39,8 +39,6 @@ class RestaurantDetailPage extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Consumer<DetailRestaurantProvider>(
             builder: (context, provider, child) {
-              DetailRestaurant detailRestaurant = provider.result.restaurant;
-
               if (provider.state == ResultState.Loading) {
                 return Container(
                   margin: EdgeInsets.only(
@@ -50,6 +48,8 @@ class RestaurantDetailPage extends StatelessWidget {
                   ),
                 );
               } else if (provider.state == ResultState.HasData) {
+                DetailRestaurant detailRestaurant = provider.result.restaurant;
+
                 return Column(
                   children: [
                     SizedBox(
@@ -114,13 +114,10 @@ class RestaurantDetailPage extends StatelessWidget {
                           ),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Hero(
-                              tag: detailRestaurant.pictureId,
-                              child: Image.network(
-                                pictureUrl + detailRestaurant.pictureId,
-                                width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.contain,
-                              ),
+                            child: Image.network(
+                              pictureUrl + detailRestaurant.pictureId,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           SizedBox(

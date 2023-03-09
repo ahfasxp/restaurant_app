@@ -20,7 +20,7 @@ class CardNewRestaurant extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
-        await detailRestaurantProvider.fetchDetailRestaurant(restaurant.id);
+        detailRestaurantProvider.fetchDetailRestaurant(restaurant.id);
         Navigator.pushNamed(
           context,
           RestaurantDetailPage.routeName,
@@ -57,14 +57,11 @@ class CardNewRestaurant extends StatelessWidget {
                     10,
                   ),
                 ),
-                child: Hero(
-                  tag: restaurant.pictureId,
-                  child: Image.network(
-                    pictureUrl + restaurant.pictureId,
-                    width: 128,
-                    height: 103,
-                    fit: BoxFit.cover,
-                  ),
+                child: Image.network(
+                  pictureUrl + restaurant.pictureId,
+                  width: 128,
+                  height: 103,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
