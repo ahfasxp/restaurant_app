@@ -67,7 +67,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: greenColor,
+                      backgroundColor: greenColor,
                       minimumSize: Size(256, 49),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(11),
@@ -90,7 +90,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: loginColor,
+                      backgroundColor: loginColor,
                       minimumSize: Size(256, 49),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(11),
@@ -124,6 +124,9 @@ class _WelcomePageState extends State<WelcomePage> {
                       style: profileTextStyle.copyWith(fontSize: 10),
                     ),
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 16,
                   ),
                 ],
               ),

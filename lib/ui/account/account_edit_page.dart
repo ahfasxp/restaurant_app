@@ -172,7 +172,7 @@ class _AccountEditPageState extends State<AccountEditPage> {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: greenColor,
+                  backgroundColor: greenColor,
                   minimumSize: Size(256, 49),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(11),

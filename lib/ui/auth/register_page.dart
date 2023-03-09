@@ -152,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: greenColor,
+                    backgroundColor: greenColor,
                     minimumSize: Size(256, 49),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(11),
@@ -191,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[300],
+                    backgroundColor: Colors.grey[300],
                     minimumSize: Size(256, 49),
                     maximumSize: Size(256, 49),
                     shape: RoundedRectangleBorder(
