@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -46,7 +45,7 @@ class NotificationHelper {
 
   Future<void> showNotification(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-      RestaurantResult restaurantResult) async {
+      Restaurant restaurant) async {
     var channelId = "1";
     var channelName = "channel_01";
     var channelDescription = "dicoding news channel";
@@ -63,12 +62,6 @@ class NotificationHelper {
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
-
-    // generates a new Random object
-    final _random = new Random();
-
-    Restaurant restaurant = restaurantResult
-        .restaurants[_random.nextInt(restaurantResult.restaurants.length)];
 
     var titleNotification = "<b>Recommended Restaurant</b>";
     var titleNews = restaurant.name;
